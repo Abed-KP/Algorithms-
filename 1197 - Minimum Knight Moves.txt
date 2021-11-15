@@ -1,0 +1,66 @@
+class Solution {
+    public int minKnightMoves(int x, int y) {
+        
+         int[][] moves = {{1, 2}, {2, 1}, {2, -1}, {1, -2},
+                {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}};
+        
+        HashSet<List<Integer>> set = new HashSet();
+        Queue<Cell> que = new LinkedList();
+        x = Math.abs(x);
+        y = Math.abs(y);
+        
+        que.add(new Cell(0,0,0));
+        set.add(List.of(0,0));
+        
+        while(!que.isEmpty()){
+            
+           Cell curr = que.poll();
+           int currX = curr.x;
+           int currY = curr.y;
+        
+            if(currX == x && currY == y) return curr.distance;            
+            for(int[] move: moves){
+                int newX = currX + move[0];
+                int newY = currY + move[1];
+                if(newX < -1 || newY < -1 || set.contains(List.of(newX,newY))) continue;
+                   Cell temp = new Cell(newX,newY,curr.distance + 1);
+                    set.add(List.of(newX,newY));
+                    que.add(temp);                                             
+        }
+        }
+        return 0;
+    }
+    
+    class Cell{
+        int x;
+        int y;
+        int distance;
+        Cell(int x, int y, int distance){
+            this.x = x;
+            this.y = y;
+            this.distance = distance;
+        }
+    }
+}
+*********************************
+
+
+I learned quite a lot about BFS here, as well as infinite planes.
+
+Ihings I learned.
+
+1 - You have to use Lists and not Arrays in a hashset to cstore cooardinates.
+2 - Given a point in an infinite plane, depening on the problem, we can consider only the |x| & |y| of the point due
+to the symetric nature of a coordinate plane.
+
+
+Approach:
+
+I idea here was to treat my starting point as the origin (0,0). Given any point, (-x,y),(x,-y),(-x,-y), I will
+consider the point (|x|,|y|). Because the distance from (0,0) to any of those points is the same due to symmetry.
+
+After that, I can use a BFS to find the shortest path, however I only care about the first quarate (+,+), So i will
+set my boundary to that only, and permit '-2' in both directions to edge cases. Anything more than that is excessive.
+
+
+No
