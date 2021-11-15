@@ -1,0 +1,40 @@
+class Solution {   
+    public int wordsTyping(String[] sentence, int rows, int cols) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < sentence.length; i++){
+            sb.append(sentence[i]);
+            sb.append(' ');
+        }
+        String full_Sentence = sb.toString();        
+        int cursor = 0;
+        for(int r = 1; r <= rows; r++){
+            cursor += cols;
+            if( full_Sentence.charAt(cursor % full_Sentence.length())  == ' '){
+                cursor++;
+            }
+            else{
+                while(cursor > 0 && full_Sentence.charAt((cursor - 1) % full_Sentence.length()) != ' ' ){
+                    cursor--;
+                }
+            }
+        }
+        return cursor / full_Sentence.length();
+    }
+}
+
+
+
+
+**********************************************************************
+
+I learned that you can use % (MOD) to loop through something. [i] % [anything greater than i] = [i]
+
+I learned also, to consider what I am doing, anytime, the idea, and then see if it can be done in reverse. Here,
+instead of filling words in a collumn, we fill the collumn in the words looped around each other by concatinating and 
+doing a MOD.
+
+I learned to also kind of break down the different pathways a problem can diverge to. How many scenarios can happen if
+we do something. That Makes a problem a lot easier to account for.
+
+Here for example, it was either we land on a space, or we dont. If we do, then we go 1 forward to the next word, if we 
+do not, then we keep going backward till we reach the start of the word we were trying to finish.
